@@ -16,6 +16,10 @@ The example creates:
 
 The root SQL module does not create networking resources. VNet, Private DNS, and Private Endpoint are composed explicitly with dedicated FoggyKitchen modules.
 
+## Architecture Diagram
+
+![Azure SQL Private Endpoint architecture](01_private_endpoint_azure_sql_architecture.jpg)
+
 ## Screenshots
 
 Azure SQL logical server overview:
