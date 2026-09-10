@@ -31,9 +31,10 @@ variable "administrator_login" {
 }
 
 variable "administrator_password" {
-  description = "SQL administrator password."
+  description = "SQL administrator password. Required unless azuread_administrator.azuread_authentication_only is true."
   type        = string
   sensitive   = true
+  default     = null
 }
 
 variable "minimum_tls_version" {
@@ -75,6 +76,8 @@ variable "identity" {
   type = object({
     type         = string
     identity_ids = optional(list(string))
+    principal_id = optional(string)
+    client_id    = optional(string)
   })
   default = null
 }
@@ -121,6 +124,55 @@ variable "firewall_rules" {
     end_ip_address   = string
   }))
   default = {}
+}
+
+variable "diagnostic_settings" {
+  description = "Map of Azure Monitor diagnostic settings for the Azure SQL logical server."
+  type = map(object({
+    name                           = string
+    log_analytics_workspace_id     = optional(string)
+    storage_account_id             = optional(string)
+    eventhub_authorization_rule_id = optional(string)
+    eventhub_name                  = optional(string)
+    log_category_groups            = optional(list(string), [])
+    metric_categories              = optional(list(string), ["AllMetrics"])
+  }))
+  default = {}
+
+  validation {
+    condition = alltrue([
+      for setting in values(var.diagnostic_settings) :
+      setting.log_analytics_workspace_id != null ||
+      setting.storage_account_id != null ||
+      setting.eventhub_authorization_rule_id != null
+    ])
+    error_message = "Each diagnostic_settings entry must set at least one destination: log_analytics_workspace_id, storage_account_id, or eventhub_authorization_rule_id."
+  }
+}
+
+variable "database_diagnostic_settings" {
+  description = "Map of Azure Monitor diagnostic settings for Azure SQL databases."
+  type = map(object({
+    database_key                   = string
+    name                           = string
+    log_analytics_workspace_id     = optional(string)
+    storage_account_id             = optional(string)
+    eventhub_authorization_rule_id = optional(string)
+    eventhub_name                  = optional(string)
+    log_categories                 = optional(list(string))
+    metric_categories              = optional(list(string), ["Basic", "InstanceAndAppAdvanced", "WorkloadManagement"])
+  }))
+  default = {}
+
+  validation {
+    condition = alltrue([
+      for setting in values(var.database_diagnostic_settings) :
+      setting.log_analytics_workspace_id != null ||
+      setting.storage_account_id != null ||
+      setting.eventhub_authorization_rule_id != null
+    ])
+    error_message = "Each database_diagnostic_settings entry must set at least one destination: log_analytics_workspace_id, storage_account_id, or eventhub_authorization_rule_id."
+  }
 }
 
 variable "tags" {

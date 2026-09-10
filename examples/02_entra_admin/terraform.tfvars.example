@@ -1,0 +1,15 @@
+resource_group_name = "rg-fk-sql02"
+location            = "westeurope"
+name_prefix         = "fk-sql02"
+
+entra_admin_user_principal_name = "fk-sql-admin@REPLACE_WITH_TENANT_DOMAIN"
+entra_admin_user_display_name   = "FoggyKitchen SQL Admin"
+entra_admin_user_mail_nickname  = "fksqladmin"
+entra_admin_user_password       = "REPLACE_WITH_STRONG_PASSWORD"
+entra_admin_group_name          = "fk-sql-admins"
+
+tags = {
+  project     = "foggykitchen"
+  environment = "dev"
+  managed_by  = "opentofu"
+}

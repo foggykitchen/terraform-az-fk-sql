@@ -1,6 +1,6 @@
 # Azure SQL with Terraform/OpenTofu - Training Examples
 
-This directory contains minimal free examples used with the **terraform-az-fk-sql** module.
+This directory contains progressive free examples used with the **terraform-az-fk-sql** module.
 The examples are designed as incremental building blocks for private Azure SQL architectures on Azure.
 
 These examples are part of the [FoggyKitchen.com training ecosystem](https://foggykitchen.com/courses-2/) and are meant to be applied independently for learning and experimentation.
@@ -12,6 +12,9 @@ These examples are part of the [FoggyKitchen.com training ecosystem](https://fog
 | Example | Title | Key Topics |
 |:-------:|:------|:-----------|
 | 01 | **Private Endpoint** | Azure SQL logical server, Azure SQL Database, FoggyKitchen Private Endpoint module, Private DNS Zone Group |
+| 02 | **Entra Admin** | Private Endpoint, Private DNS, Microsoft Entra user and group, Entra-only SQL administration |
+| 03 | **Customer-Managed Key** | Private Endpoint, Private DNS, user-assigned managed identity, Key Vault, RBAC, TDE customer-managed key |
+| 04 | **Diagnostics** | Private Endpoint, Private DNS, Log Analytics, logical server diagnostic settings, database diagnostic settings |
 
 ---
 
@@ -33,10 +36,13 @@ tofu plan
 tofu apply
 ```
 
-The current free learning path contains one minimal example:
+The current free learning path contains these focused examples:
 
 ```text
 01
+02
+03
+04
 ```
 
 Larger platform compositions belong in FoggyKitchen landing zones or blueprints, not in free module examples.
@@ -49,6 +55,7 @@ Larger platform compositions belong in FoggyKitchen landing zones or blueprints,
 - Azure SQL is isolated from networking concerns in the root module
 - Networking, Private DNS, and Private Endpoints are composed with dedicated FoggyKitchen modules
 - Examples avoid hidden dependencies between directories
+- Identity, CMK, and diagnostics are layered onto the same private-access baseline
 - Larger platform compositions belong in landing zones or blueprints, not in free module examples
 
 ---
@@ -59,8 +66,6 @@ Advanced Azure SQL scenarios should be modeled as FoggyKitchen landing zones or 
 
 - Hub-spoke private SQL with shared Private DNS
 - SQL behind centralized firewall or inspected egress patterns
-- Entra administrator and Entra-only authentication
-- Customer-managed keys with Key Vault and managed identity
 - Elastic pool patterns with multiple application databases
 
 ---

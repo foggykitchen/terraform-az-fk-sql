@@ -1,0 +1,12 @@
+resource_group_name = "rg-fk-sql04"
+location            = "westeurope"
+name_prefix         = "fk-sql04"
+
+sql_admin_username = "sqladmin"
+sql_admin_password = "ChangeMe-UseAStrongPassword123!"
+
+tags = {
+  project     = "foggykitchen"
+  environment = "dev"
+  managed_by  = "opentofu"
+}
